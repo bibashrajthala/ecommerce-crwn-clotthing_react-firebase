@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { createAuthUserWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
+import {
+  createAuthUserWithEmailAndPassword,
+  createUserDocumentFromAuth,
+} from "../../utils/firebase/firebase.utils";
 
 const defaultFormFields = {
   displayName: "",
@@ -14,6 +17,11 @@ const SignUpForm = () => {
 
   //   console.log(formFields);
 
+  // to clear/reset form's input fields when submitted ie when we click on submit button
+  const resetFormFields = () => {
+    setFormFields(defaultFormFields);
+  };
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
@@ -26,14 +34,22 @@ const SignUpForm = () => {
       alert("passwords donot match");
       return;
     }
+
     try {
-      const response = await createAuthUserWithEmailAndPassword(
+      const { user } = await createAuthUserWithEmailAndPassword(
         email,
         password
       );
-      console.log(response);
+      //   console.log(response);
+      console.log(user);
+      await createUserDocumentFromAuth(user, { displayName });
+      resetFormFields();
     } catch (error) {
-      console.log(error);
+      if (error.code === "auth/email-already-in-use") {
+        alert("Cannot create user, user already in use");
+      } else {
+        console.log("user creation encountered an error", error);
+      }
     }
   };
 
@@ -54,7 +70,7 @@ const SignUpForm = () => {
         <label htmlFor="email">Email</label>
         <input
           id="email"
-          type="text"
+          type="email"
           required
           onChange={handleChange}
           name="email"
@@ -64,7 +80,7 @@ const SignUpForm = () => {
         <label htmlFor="password">Password</label>
         <input
           id="password"
-          type="text"
+          type="password"
           required
           onChange={handleChange}
           name="password"
@@ -74,7 +90,7 @@ const SignUpForm = () => {
         <label htmlFor="confirmPassword">Confirm Password</label>
         <input
           id="confirmPassword"
-          type="text"
+          type="password"
           required
           onChange={handleChange}
           name="confirmPassword"
