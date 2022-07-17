@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
@@ -6,6 +6,9 @@ import {
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
+import { UserContext } from "../../context/user.context";
+
+import "./sign-up.styles.scss";
 
 const defaultFormFields = {
   displayName: "",
@@ -19,6 +22,9 @@ const SignUpForm = () => {
   const { displayName, email, password, confirmPassword } = formFields;
 
   //   console.log(formFields);
+
+  const { setCurrentUser } = useContext(UserContext);
+  // console.log("hit");
 
   // to clear/reset form's input fields when submitted ie when we click on submit button
   const resetFormFields = () => {
@@ -44,7 +50,9 @@ const SignUpForm = () => {
         password
       );
       //   console.log(response);
-      console.log(user);
+      // console.log(user);
+      setCurrentUser(user);
+
       await createUserDocumentFromAuth(user, { displayName });
       resetFormFields();
     } catch (error) {
