@@ -3,7 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 
 import { ReactComponent as CrwnLogo } from "../../assets/crown.svg";
 import { UserContext } from "../../context/user.context";
-import { signUserOut } from "../../utils/firebase/firebase.utils";
+import { signOutUser } from "../../utils/firebase/firebase.utils";
 
 import "./navigation.styles.scss";
 
@@ -11,10 +11,10 @@ const Navigation = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   // console.log(currentUser);
 
-  const handleSignOut = async () => {
+  const signOutHandler = async () => {
     // const res = await signUserOut();
     // console.log(res);
-    await signUserOut();
+    await signOutUser();
     setCurrentUser(null);
   };
   return (
@@ -29,7 +29,7 @@ const Navigation = () => {
           </Link>
 
           {currentUser ? (
-            <span className="nav-link" onClick={handleSignOut}>
+            <span className="nav-link" onClick={signOutHandler}>
               SIGN OUT
             </span>
           ) : (
