@@ -6,7 +6,6 @@ import {
 
 import FormInput from "../form-input/form-input.component";
 import Button from "../button/button.component";
-// import { UserContext } from "../../context/user.context";
 
 import "./sign-in-form.styles.scss";
 
@@ -19,13 +18,15 @@ const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
-  // const { setCurrentUser } = useContext(UserContext);
-
   const signInWithGoogle = async () => {
+<<<<<<< HEAD
     await signInWithGooglePopup();
     // const { user } = await signInWithGooglePopup();
     // setCurrentUser(user);
     // await createUserDocumentFromAuth(user);
+=======
+    const { user } = await signInWithGooglePopup();
+>>>>>>> lesson5-observerListener/Pattern
   };
 
   // to clear/reset form's input fields when submitted ie when we click on submit button
