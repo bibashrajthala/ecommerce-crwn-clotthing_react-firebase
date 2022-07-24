@@ -19,14 +19,10 @@ const SignInForm = () => {
   const { email, password } = formFields;
 
   const signInWithGoogle = async () => {
-<<<<<<< HEAD
     await signInWithGooglePopup();
     // const { user } = await signInWithGooglePopup();
     // setCurrentUser(user);
     // await createUserDocumentFromAuth(user);
-=======
-    const { user } = await signInWithGooglePopup();
->>>>>>> lesson5-observerListener/Pattern
   };
 
   // to clear/reset form's input fields when submitted ie when we click on submit button
