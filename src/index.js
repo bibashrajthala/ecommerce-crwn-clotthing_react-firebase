@@ -4,11 +4,12 @@ import reportWebVitals from "./reportWebVitals";
 
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-import { UserProvider } from "./context/user.context";
-import { CategoriesProvider } from "./context/categories.context";
+
+import { UserProvider } from "./contexts/user.context";
+import { CategoriesProvider } from "./contexts/categories.context";
+import { CartProvider } from "./contexts/cart.context";
 
 import "./index.scss";
-import { CartProvider } from "./context/cart.context";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
