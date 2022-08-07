@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
@@ -9,8 +9,49 @@ export const UserContext = createContext({
   setCurrentUser: () => null,
 });
 
+const USER_ACTION_TYPES = {
+  SET_CURRENT_USER: "SET_CURRENT_USER",
+};
+
+const userReducer = (state = {}, action) => {
+  console.log("dispatched");
+  console.log(action);
+
+  const { type, payload } = action;
+
+  switch (type) {
+    case USER_ACTION_TYPES.SET_CURRENT_USER:
+      // return the updated state (whenever reducer returns the state by updating it, it rerenders whole component here, context provider component from where the action of its type was dispatched )
+      return {
+        ...state,
+        currentUser: payload,
+      };
+    default:
+      throw new Error(`unhandled action type ${type} in userReducer`);
+    // or
+    // return state;
+  }
+};
+
+const INITIAL_STATE = {
+  currentUser: null,
+};
+
 export const UserProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
+  // const [currentUser, setCurrentUser] = useState(null);
+  // using useReducer()  instead of useStates()
+  const [state, dispatch] = useReducer(userReducer, INITIAL_STATE);
+  const { currentUser } = state;
+  //or, directly
+  // const [{ currentUser }, dispatch] = useReducer(userReducer, INITIAL_STATE);
+
+  console.log(currentUser);
+
+  // action generator/dispatcher => dispatches action and triggers the reducers with that action
+  const setCurrentUser = (user) => {
+    dispatch({ type: "SET_CURRENT_USER", payload: user });
+  };
+
   const value = { currentUser, setCurrentUser };
 
   useEffect(() => {
