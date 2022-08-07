@@ -13,9 +13,10 @@ const USER_ACTION_TYPES = {
   SET_CURRENT_USER: "SET_CURRENT_USER",
 };
 
-const userReducer = (state = {}, action) => {
-  console.log("dispatched");
-  console.log(action);
+const userReducer = (state, action) => {
+  // initially , this state = INITIAL_STATE used in useReducer() hook  in which this userReducer is used and has dispatched action to it
+  // console.log("dispatched");
+  // console.log(action);
 
   const { type, payload } = action;
 
@@ -45,11 +46,11 @@ export const UserProvider = ({ children }) => {
   //or, directly
   // const [{ currentUser }, dispatch] = useReducer(userReducer, INITIAL_STATE);
 
-  console.log(currentUser);
+  // console.log(currentUser);
 
   // action generator/dispatcher => dispatches action and triggers the reducers with that action
   const setCurrentUser = (user) => {
-    dispatch({ type: "SET_CURRENT_USER", payload: user });
+    dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user });
   };
 
   const value = { currentUser, setCurrentUser };
