@@ -30,8 +30,7 @@ const userReducer = (state, action) => {
       };
     default:
       throw new Error(`unhandled action type ${type} in userReducer`);
-    // or
-    // return state;
+   
   }
 };
 
