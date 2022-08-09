@@ -6,5 +6,9 @@ import { combineReducers } from "redux";
 // combine all reducers , passed as an object (key=slice,value=reducer function, can name key and value same as well, it is upto you)
 
 import { userReducer } from "./user/user.reducer";
+import { categoriesReducer } from "./categories/categories.reducer";
 
-export const rootReducer = combineReducers({ user: userReducer });
+export const rootReducer = combineReducers({
+  user: userReducer,
+  categories: categoriesReducer,
+});
