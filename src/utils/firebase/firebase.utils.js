@@ -76,7 +76,7 @@ export const getCollectionAndDocuments = async () => {
   const categoriesArray = querySnapshot.docs.map((docSnapshot) =>
     docSnapshot.data()
   );
-  console.log(categoriesArray);
+  // console.log(categoriesArray);
   return categoriesArray;
 };
 
