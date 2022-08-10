@@ -5,29 +5,21 @@
 
 import { createSelector } from "reselect";
 
-const selectCategoriesReducer = (state) => {
-  console.log("category selector 1 fired");
-  return state.categories;
-};
+const selectCategoriesReducer = (state) => state.categories;
 
 const selectCategories = createSelector(
   [selectCategoriesReducer],
-  (categoriesSlice) => {
-    console.log("category selector 2 fired");
-    return categoriesSlice.categories;
-  }
+  (categoriesSlice) => categoriesSlice.categories
 );
 
 // now this selectCategories's and selectCategoriesMap's createSelector's 2nd parameter function will be fired for  first time giving a value, then they will only be fired if categoriesSlice and categories changes respectively, otherwise it will not fire that 2nd parameter and return the same memoized value got when it first fired.
 
 export const selectCategoriesMap = createSelector(
   [selectCategories],
-  (categories) => {
-    console.log("category selector 3 fired");
-    return categories.reduce((acc, category) => {
+  (categories) =>
+    categories.reduce((acc, category) => {
       const { title, items } = category;
       acc[title.toLowerCase()] = items;
       return acc;
-    }, {});
-  }
+    }, {})
 );
