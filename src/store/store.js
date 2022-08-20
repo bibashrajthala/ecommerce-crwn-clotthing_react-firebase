@@ -6,13 +6,27 @@ import {
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import logger from "redux-logger";
-import thunk from "redux-thunk";
+// import thunk from "redux-thunk";
+import createSagaMiddleware from "@redux-saga";
+
+import { rootSaga } from "./root-saga";
 
 import { rootReducer } from "./root.reducer";
 
+const persistConfig = {
+  key: "root",
+  storage,
+  // blacklist: ["user"],
+  whitelist: ["cart"],
+};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const sagaMiddleware = createSagaMiddleware();
+
 const middlewares = [
   process.env.NODE_ENV !== "production" && logger,
-  thunk,
+  // thunk,
+  sagaMiddleware,
 ].filter(Boolean); // only user logger when in development and not in production ,ie production app should log our store states
 
 const composeEnhancer =
@@ -23,19 +37,13 @@ const composeEnhancer =
 // use redux devtool extension's compose in browser window if availble, otherwise use redux's compose
 const composedEnhancers = composeEnhancer(applyMiddleware(...middlewares));
 
-const persistConfig = {
-  key: "root",
-  storage,
-  // blacklist: ["user"],
-  whitelist: ["cart"],
-};
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 export const store = createStore(
   persistedReducer,
   undefined,
   composedEnhancers
 );
+
+sagaMiddleware.run(rootSaga);
 
 export const persistor = persistStore(store);
 
