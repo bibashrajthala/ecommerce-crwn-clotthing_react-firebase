@@ -2,17 +2,24 @@ import { USER_ACTION_TYPES } from "./user.types";
 
 const USER_INITIAL_STATE = {
   currentUser: null,
+  isLoading: false,
+  error: null,
 };
 
 export const userReducer = (state = USER_INITIAL_STATE, action = {}) => {
   const { type, payload } = action;
 
+  // as we already know we only need case of success and failed in saga as we dispatch start from component on which we run saga which dispatch(put ) success or fail
   switch (type) {
-    case USER_ACTION_TYPES.SET_CURRENT_USER:
-      // return the updated state (whenever reducer returns the state by updating it, it rerenders whole component here, context provider component from where the action of its type was dispatched )
+    case USER_ACTION_TYPES.SIGN_IN_SUCCESS:
       return {
         ...state,
         currentUser: payload,
+      };
+    case USER_ACTION_TYPES.SIGN_IN_FAILED:
+      return {
+        ...state,
+        error: payload,
       };
     default:
       return state;

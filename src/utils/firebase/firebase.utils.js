@@ -110,7 +110,7 @@ export const createUserDocumentFromAuth = async (
     }
   }
 
-  return userDocRef;
+  return userSnapshot;
 };
 
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
@@ -129,3 +129,17 @@ export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+// make a promise returning function to get user to implement saga as it is similar to using async/await ie uses promise
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe(); // unsubscribe immediately as we get a value(signed in user or null)as soon as auth change to prevent memory leak
+        resolve(userAuth);
+      },
+      reject // optional , if promise is rejected this reject method is run
+    );
+  });
+};
