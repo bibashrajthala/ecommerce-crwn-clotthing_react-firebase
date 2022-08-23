@@ -4,9 +4,10 @@ import { USER_ACTION_TYPES } from "./user.types";
 import {
   signInSuccess,
   signInFailed,
-  signUpFailed,
-  signUpStart,
   signUpSuccess,
+  signUpFailed,
+  signOutSuccess,
+  signOutFailed,
 } from "./user.action"; // as we already know we only need case of success and failed in saga as we dispatch start from component on which we run saga which dispatch(put ) success or fail
 import {
   createUserDocumentFromAuth,
@@ -14,6 +15,7 @@ import {
   signInWithGooglePopup,
   signInAuthUserWithEmailAndPassword,
   createAuthUserWithEmailAndPassword,
+  signOutUser,
 } from "../../utils/firebase/firebase.utils";
 
 export function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
@@ -75,6 +77,15 @@ export function* signInAfterSuccess({ payload: { user, additionalDetails } }) {
   yield call(getSnapshotFromUserAuth, user, additionalDetails);
 }
 
+export function* signOut() {
+  try {
+    yield call(signOutUser);
+    yield put(signOutSuccess());
+  } catch (error) {
+    yield put(signOutFailed(error));
+  }
+}
+
 export function* isUserAuthenticated() {
   try {
     const userAuth = yield call(getCurrentUser); // get the authenticated user or null
@@ -105,6 +116,10 @@ export function* onSignUpSuccess() {
   yield takeLatest(USER_ACTION_TYPES.SIGN_UP_SUCCESS, signInAfterSuccess); // we need to sign in user automatically after user signs up successfully.
 }
 
+export function* onSignOutStart() {
+  yield takeLatest(USER_ACTION_TYPES.SIGN_OUT_START, signOut);
+}
+
 export function* userSagas() {
   yield all([
     call(onCheckUserSession),
@@ -112,5 +127,6 @@ export function* userSagas() {
     call(onEmailSignInStart),
     call(onSignUpStart),
     call(onSignUpSuccess),
+    call(onSignOutStart),
   ]);
 }

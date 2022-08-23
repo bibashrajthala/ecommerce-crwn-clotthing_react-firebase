@@ -8,6 +8,9 @@ export const USER_ACTION_TYPES = {
   SIGN_UP_START: "user/SIGN_UP_START",
   SIGN_UP_SUCCESS: "user/SIGN_UP_SUCCESS",
   SIGN_UP_FAILED: "user/SIGN_UP_FAILED",
+  SIGN_OUT_START: "user/SIGN_OUT_START",
+  SIGN_OUT_SUCCESS: "user/SIGN_OUT_SUCCESS",
+  SIGN_OUT_FAILED: "user/SIGN_OUT_FAILED",
 };
 
 // we used 'user/' just to be clear that it is for userReducer in case there are 100s of other reducers
