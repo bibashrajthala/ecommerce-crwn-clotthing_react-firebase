@@ -1,13 +1,15 @@
 import { useState } from "react";
-import {
-  signInAuthUserWithEmailAndPassword,
-  signInWithGooglePopup,
-} from "../../utils/firebase/firebase.utils";
+
+import { useDispatch } from "react-redux";
 
 import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import { SignInContainer, ButtonsContainer } from "./sign-in-form.styles";
+import {
+  googleSignInStart,
+  emailSignInStart,
+} from "../../store/user/user.action";
 
 const defaultFormFields = {
   email: "",
@@ -15,14 +17,12 @@ const defaultFormFields = {
 };
 
 const SignInForm = () => {
+  const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
   const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
-    // const { user } = await signInWithGooglePopup();
-    // setCurrentUser(user);
-    // await createUserDocumentFromAuth(user);
+    dispatch(googleSignInStart());
   };
 
   // to clear/reset form's input fields when submitted ie when we click on submit button
@@ -39,13 +39,7 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      await signInAuthUserWithEmailAndPassword(email, password);
-      // const { user } = await signInAuthUserWithEmailAndPassword(
-      //   email,
-      //   password
-      // );
-      // console.log(response);
-      // setCurrentUser(user);
+      dispatch(emailSignInStart(email, password));
       resetFormFields();
     } catch (error) {
       switch (error.code) {
