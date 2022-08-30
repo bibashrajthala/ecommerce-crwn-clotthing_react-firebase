@@ -22,7 +22,7 @@ const CATEGORIES_INITIAL_STATE: TCategoriesState = {
 // state inherits type of initial state
 export const categoriesReducer = (
   state = CATEGORIES_INITIAL_STATE,
-  action = {} as AnyAction
+  action : AnyAction
 ): TCategoriesState => {
   if (fetchCategoriesStart.match(action)) return { ...state, isLoading: true };
 
