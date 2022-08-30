@@ -3,8 +3,8 @@ import { TCartItem } from "./cart.types";
 import { setIsCartOpen, setCartItems } from "./cart.action";
 
 export type TCartState = {
-  isCartOpen: boolean;
-  cartItems: TCartItem[];
+  readonly isCartOpen: boolean;
+  readonly cartItems: TCartItem[];
 };
 
 const CART_INITIAL_STATE: TCartState = {

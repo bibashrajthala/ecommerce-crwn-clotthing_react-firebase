@@ -1,10 +1,10 @@
 import { CATEGORIES_ACTION_TYPES, TCategory } from "./categories.types";
 import {
   createAction,
+  withMatcher,
   TActionWithPayload,
   TActionWithoutPayload,
 } from "../../utils/reducers/reducer.utils";
-import { withMatcher } from "../../utils/reducers/reducer.utils";
 
 // return type of fetchCategoriesStart() ie, it returns action without payload,ie with type only , of CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_START
 export type TFetchCategoriesStart =
