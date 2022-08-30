@@ -1,9 +1,10 @@
 import { createSelector } from "reselect";
 import { TCartState } from "./cart.reducer";
+import { TRootState } from "../store";
 
 // creating memoizing selectors to omit extra re-renders
 
-const selectCartReducer = (state): TCartState => state.cart;
+const selectCartReducer = (state: TRootState): TCartState => state.cart;
 
 export const selectCartItems = createSelector(
   [selectCartReducer],

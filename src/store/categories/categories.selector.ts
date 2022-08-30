@@ -2,8 +2,10 @@ import { createSelector } from "reselect";
 
 import { TCategoriesState } from "./categories.reducer";
 import { TCategoryMap } from "./categories.types";
+import { TRootState } from "../store";
 
-const selectCategoriesReducer = (state): TCategoriesState => state.categories;
+const selectCategoriesReducer = (state: TRootState): TCategoriesState =>
+  state.categories;
 
 // typescript will auto inherit types as much as possible
 const selectCategories = createSelector(
