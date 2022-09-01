@@ -9,8 +9,9 @@ import {
   TUserData,
   TAdditionalInformation,
 } from "../../utils/firebase/firebase.utils";
+import { User } from "firebase/auth";
 
-// return types of each action creaters
+// return types of each action creaters ie type of action returned by action creaters
 export type TCheckUserSession =
   TActionWithoutPayload<USER_ACTION_TYPES.CHECK_USER_SESSION>;
 
@@ -48,7 +49,7 @@ export type TSignUpStart = TActionWithPayload<
 
 export type TSignUpSuccess = TActionWithPayload<
   USER_ACTION_TYPES.SIGN_UP_SUCCESS,
-  { user: TUserData; additionalDetails: TAdditionalInformation }
+  { user: User; additionalDetails: TAdditionalInformation }
 >;
 
 export type TSignUpFailed = TActionWithPayload<
@@ -88,7 +89,7 @@ export const emailSignInStart = withMatcher(
 );
 
 export const signInSuccess = withMatcher(
-  (user: TUserData): TSignInSuccess =>
+  (user: TUserData & { id: string }): TSignInSuccess =>
     createAction(USER_ACTION_TYPES.SIGN_IN_SUCCESS, user)
 );
 
@@ -107,10 +108,7 @@ export const signUpStart = withMatcher(
 );
 
 export const signUpSuccess = withMatcher(
-  (
-    user: TUserData,
-    additionalDetails: TAdditionalInformation
-  ): TSignUpSuccess =>
+  (user: User, additionalDetails: TAdditionalInformation): TSignUpSuccess =>
     createAction(USER_ACTION_TYPES.SIGN_UP_SUCCESS, { user, additionalDetails })
 );
 

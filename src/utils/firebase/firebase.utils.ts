@@ -100,6 +100,9 @@ export type TUserData = {
   email: string;
 };
 
+//type User imported from firebase is for authenticated user stored in authentication
+// TUserData is for user data stored in our fireStore
+
 export const createUserDocumentFromAuth = async (
   userAuth: User, // User type is given by firebase itself
   additionalInformation = {} as TAdditionalInformation

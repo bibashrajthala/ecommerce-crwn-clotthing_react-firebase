@@ -59,7 +59,7 @@ const clearCartItem = (
   return cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
 };
 
-// return types of action creaters which return action
+// return types of action creaters which return action ie type of action returned by action creaters
 export type TSetCartItems = TActionWithPayload<
   CART_ACTION_TYPES.SET_CART_ITEMS,
   TCartItem[]

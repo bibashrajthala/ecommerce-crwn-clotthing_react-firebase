@@ -1,4 +1,5 @@
-import { takeLatest, call, put, all } from "redux-saga/effects";
+// import { takeLatest, call, put, all } from "redux-saga/effects";
+import { takeLatest, call, put, all } from "typed-redux-saga/macro";
 
 import { CATEGORIES_ACTION_TYPES } from "./categories.types";
 import { getCollectionAndDocuments } from "../../utils/firebase/firebase.utils";
@@ -12,18 +13,18 @@ import {
 // put is just the dispatch() in saga
 export function* fetchCategoriesAsync() {
   try {
-    const categoriesArray = yield call(getCollectionAndDocuments, "categories");
-    yield put(fetchCategoriesSuccess(categoriesArray));
+    const categoriesArray = yield* call(getCollectionAndDocuments);
+    yield* put(fetchCategoriesSuccess(categoriesArray));
   } catch (error) {
     console.log(error);
-    yield put(fetchCategoriesFailed(error));
+    yield* put(fetchCategoriesFailed(error as Error));
   }
 }
 
 // takeLatest() takes the latest action dispatched in first parameter and run the method in second parameter on that action type
 // used FETCH_CATEGORIES_START here as in saga, action dispatched only reach saga after they reach reducers, so we will dispatch fetchCategoriesStart() in component so the latest action willbe FETCH_CATEGORIES_START, on which we want ot run fetchCategoriesAsync
 export function* onFetchCategories() {
-  yield takeLatest(
+  yield* takeLatest(
     CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_START,
     fetchCategoriesAsync
   );
@@ -31,5 +32,5 @@ export function* onFetchCategories() {
 
 // saga to call all the functions necessary for particular action
 export function* categoriesSaga() {
-  yield all([call(onFetchCategories)]);
+  yield* all([call(onFetchCategories)]);
 }
