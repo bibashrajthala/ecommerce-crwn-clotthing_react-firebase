@@ -9,7 +9,12 @@ const shrinkLabelStyles = css`
   color: ${mainColor};
 `;
 
-export const FormInputLabel = styled.label`
+// styled component are pre-typed for us, so we  only need to type them only if they are receiving any props ie we only need to type the props they are receiving if any.(here we need to type for shrink Prop formINputLabel receives) and we use this type in styled component using <> ie as generic.
+type FormInputLabelProps = {
+  shrink: boolean;
+};
+
+export const FormInputLabel = styled.label<FormInputLabelProps>`
   color: ${subColor};
   font-size: 16px;
   font-weight: normal;

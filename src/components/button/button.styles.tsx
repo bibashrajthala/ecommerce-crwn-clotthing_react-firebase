@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+// styled component are pre-typed for us, so we  only need to type them only if they are receiving any props ie we only need to type the props they are receiving if any.
+
 export const BaseButton = styled.button`
   min-width: 165px;
   width: auto;
